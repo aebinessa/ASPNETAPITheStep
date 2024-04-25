@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.9.34728.123
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ASPNETAPITheStep", "ASPNETAPITheStep\ASPNETAPITheStep.csproj", "{DFCC47A5-5F96-429D-8A0F-8608EF499CBE}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{DFCC47A5-5F96-429D-8A0F-8608EF499CBE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DFCC47A5-5F96-429D-8A0F-8608EF499CBE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DFCC47A5-5F96-429D-8A0F-8608EF499CBE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DFCC47A5-5F96-429D-8A0F-8608EF499CBE}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {19780D94-0A6F-4255-A3EC-9ED98B124D37}
+	EndGlobalSection
+EndGlobal
