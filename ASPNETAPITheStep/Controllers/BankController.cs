@@ -1,12 +1,21 @@
 ﻿using ASPNETAPITheStep.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.Data;
 
 namespace ASPNETAPITheStep.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+
+    [Authorize(Roles = "admin")]
+    public class AdminController : ControllerBase
+    {
+        // Admin only actions
+    }
+
     public class BankController : ControllerBase
     {
         private readonly BankContext _context;
@@ -17,15 +26,40 @@ namespace ASPNETAPITheStep.Controllers
         }
 
         [HttpGet]
-        public IEnumerable<BankBranchResponse> GetAll() {
-
-            return _context.BankBranches.Select(b=> new BankBranchResponse
+        [AllowAnonymous]
+        public IActionResult GetAll(int pageNumber = 1, int pageSize = 10, string searchTerm = "")
+        {
+            var query = _context.BankBranches.Select(b => new BankBranchResponse
             {
                 BranchManager = b.BranchManager,
                 Location = b.Location,
                 Name = b.Name
-            }).ToList();
+            });
+
+            if (!string.IsNullOrEmpty(searchTerm))
+            {
+                query = query.Where(b => b.Name.Contains(searchTerm) ||
+                                          b.BranchManager.Contains(searchTerm) ||
+                                          b.Location.Contains(searchTerm));
+            }
+
+            var totalItems = query.Count();
+            var totalPages = (int)Math.Ceiling(totalItems / (double)pageSize);
+
+            var items = query.Skip((pageNumber - 1) * pageSize)
+                             .Take(pageSize)
+                             .ToList();
+
+            return Ok(new
+            {
+                TotalItems = totalItems,
+                TotalPages = totalPages,
+                PageNumber = pageNumber,
+                PageSize = pageSize,
+                Items = items
+            });
         }
+
         [HttpGet("{id}")]
         public IActionResult Details(int id)
         {
@@ -69,6 +103,7 @@ namespace ASPNETAPITheStep.Controllers
             return Created(nameof(Details), new { Id = branch.Id });
         }
         [HttpDelete("{id}")]
+        [Authorize(Roles = "admin")]
         public IActionResult Delete(int id)
         {
             var branch = _context.BankBranches.Find(id);

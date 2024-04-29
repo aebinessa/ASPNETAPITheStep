@@ -10,7 +10,10 @@ namespace  ASPNETAPITheStep.Models
         public DbSet<BankBranch> BankBranches { get; set; }
         public DbSet<Employee> Employees { get; set; }
 
-       
+        public DbSet<UserAccount> UserAccounts { get; set; } 
+
+
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
 

@@ -17,12 +17,17 @@ namespace ASPNETAPITheStep.Controllers
             _context = context;
         }
         [HttpGet]
-        public IEnumerable<Employee> GetAll()
+        public IEnumerable<AddEmployeeResponse> GetAll()
         {
-            return _context.Employees.Include(r=> r.BankBranch).ToList();
+            return _context.Employees.Select(e => new AddEmployeeResponse
+            {
+                Name = e.Name,  
+                CivilId = e.CivilId,
+                Position = e.Position,
+            }).ToList();
         }
+        //
 
-        
         [HttpPost("{id}")]
         public IActionResult AddEmployee(int id, AddEmployeeRequest request)
         {
@@ -36,82 +41,24 @@ namespace ASPNETAPITheStep.Controllers
             };
             _context.Employees.Add(employee);
             _context.SaveChanges();
-            return Created(/*nameof(Details), new { Id = employee.Id }*/);
+            return Created(nameof(Details), new { Id = employee.Id });
         }
         [HttpGet("{id}")]
         public IActionResult Details(int id)
         {
-            var employee = _context.Employees.Find(id);
+            var employee = _context.Employees.Include(e => e.BankBranch).FirstOrDefault(e => e.Id == id);
             if (employee == null)
             {
                 return NotFound();
             }
             return Ok(employee);
-        }                
+        }
 
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        /*[HttpPatch("{id}")]
-        public IActionResult Edit(int id, EditEmployeeRequest request)
+        [HttpPatch("{id}")]
+        public IActionResult Edit(int id, AddEmployeeRequest request)
         {
             var employee = _context.Employees.Find(id);
             if (employee == null)
@@ -121,7 +68,6 @@ namespace ASPNETAPITheStep.Controllers
             employee.Name = request.Name;
             employee.CivilId = request.CivilId;
             employee.Position = request.Position;
-            employee.BankBranchId = request.BankBranchId;
             _context.SaveChanges();
             return Ok(employee);
         }
@@ -137,7 +83,7 @@ namespace ASPNETAPITheStep.Controllers
             _context.Employees.Remove(employee);
             _context.SaveChanges();
             return Ok();
-        }*/
+        }
 
     }
 }

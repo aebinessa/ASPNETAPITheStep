@@ -17,13 +17,14 @@
 
 
 
+
     }
     public class AddEmployeeResponse
     {
         public string Name { get; set; }
         public int CivilId { get; set; }
         public string Position { get; set; }
-        public String BankBranch { get; set; }
+        public int BankBranch { get; set; }
 
     }
 
